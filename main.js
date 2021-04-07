@@ -19,12 +19,18 @@ const { steps } = require('./steps')
 let fails = 0
 let isRunning = true
 
+// Gestion des erreurs
+
+
 
 while (isRunning) {
   // interaction utilisateur
   console.log(wordSecret)
   const readlineSync = require('readline-sync')
-  const letter = readlineSync.question('Please suggest a letter: ').toUpperCase()
+  let letter = '£'
+  while (letter.charCodeAt(0) > 90 || letter.charCodeAt(0) < 65 || letter === '') {
+    letter = readlineSync.question('Please suggest a letter: ').toUpperCase()
+  }
 
   let wordProgress = ''
 
@@ -47,7 +53,6 @@ while (isRunning) {
   }
   if (fails === 10) {
     console.log('Game Over')
-    console.log(steps[fails])
     isRunning = false
   } else if (wordSecret === word) {
     console.log('You win')
