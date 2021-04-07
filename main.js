@@ -9,7 +9,7 @@ const word = Word()
 const intro = `Hi there, try to find the hidden word: \n\n\n`
 // affichage lettres restantes a deviner
 let wordSecret = '_'.repeat(word.length)
-console.log(intro)
+console.log(chalk.yellow(intro))
 
 //affichage msg bonne/mauvaise reponse
 const { Answer } = require('./strings')
@@ -25,11 +25,11 @@ let isRunning = true
 
 while (isRunning) {
   // interaction utilisateur
-  console.log(wordSecret)
+  console.log(chalk.yellow(wordSecret))
   const readlineSync = require('readline-sync')
   let letter = '£'
   while (letter.charCodeAt(0) > 90 || letter.charCodeAt(0) < 65 || letter === '') {
-    letter = readlineSync.question('Please suggest a letter: ').toUpperCase()
+    letter = readlineSync.question(chalk.yellow('Please suggest a letter: ')).toUpperCase()
   }
 
   let wordProgress = ''
@@ -45,17 +45,19 @@ while (isRunning) {
       }
     }
     wordSecret = wordProgress
-    console.log(Answer('good'))
+    console.log(chalk.green(Answer('good')))
+    console.log(chalk.bold.blue(steps[fails]))
   } else {
-    console.log(Answer('bad'))
+    console.log(chalk.red(Answer('bad')))
     fails += 1
-    console.log(steps[fails])
+    console.log(chalk.bold.blue(steps[fails]))
   }
-  if (fails === 10) {
-    console.log('Game Over')
+  if (fails === 9) {
+    console.log(chalk.bold.red('! GAME OVER !'))
     isRunning = false
   } else if (wordSecret === word) {
-    console.log('You win')
+    console.log(chalk.bold.yellow(word))
+    console.log(chalk.bold.green('YOU WIN !!!'))
     isRunning = false
   }
 }
